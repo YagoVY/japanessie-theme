@@ -1,11 +1,8 @@
 {
   "sections": {
-    "japanessie_test": {
-      "type": "japanessie-test",
-      "settings": {
-        "version": "1.0.0",
-        "show_details": true
-      }
+    "theme_verification": {
+      "type": "theme-verification",
+      "settings": {}
     },
     "hero_compact": {
       "type": "hero-compact",
@@ -113,20 +110,11 @@
         "columns_desktop": 3,
         "enable_animations": true
       }
-    },
-    "deployment_status": {
-      "type": "deployment-status",
-      "settings": {
-        "show_status": true,
-        "theme_name": "Japanessie",
-        "version": "1.0.0"
-      }
     }
   },
   "order": [
-    "japanessie_test",
+    "theme_verification",
     "hero_compact",
-    "product_categories",
-    "deployment_status"
+    "product_categories"
   ]
 }
