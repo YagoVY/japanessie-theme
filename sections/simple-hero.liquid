@@ -1,0 +1,75 @@
+{% comment %}
+  Simple Hero Section - Guaranteed to work
+{% endcomment %}
+
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4rem 2rem; text-align: center; min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+  <div>
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+      {{ section.settings.headline | default: "Your Name in Japanese Style" }}
+    </h1>
+    
+    <p style="font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.9; font-family: 'Noto Sans JP', sans-serif;">
+      {{ section.settings.japanese_text | default: "あなたの名前を日本語で" }}
+    </p>
+    
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.8;">
+      {{ section.settings.description | default: "Custom t-shirts, mugs & more with authentic Japanese text. From $19.99" }}
+    </p>
+    
+    <a href="{{ section.settings.cta_url | default: '/collections/all' }}" 
+       style="display: inline-block; background: linear-gradient(135deg, #c53030, #fd7e14); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(197, 48, 48, 0.3); transition: transform 0.3s ease;">
+      {{ section.settings.cta_text | default: "Shop Now" }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Simple Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Your Name in Japanese Style"
+    },
+    {
+      "type": "text",
+      "id": "japanese_text",
+      "label": "Japanese Text",
+      "default": "あなたの名前を日本語で"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Custom t-shirts, mugs & more with authentic Japanese text. From $19.99"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple Hero",
+      "settings": {
+        "headline": "Your Name in Japanese Style",
+        "japanese_text": "あなたの名前を日本語で",
+        "description": "Custom t-shirts, mugs & more with authentic Japanese text. From $19.99",
+        "cta_text": "Shop Now",
+        "cta_url": "/collections/all"
+      }
+    }
+  ]
+}
+{% endschema %}

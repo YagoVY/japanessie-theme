@@ -1,120 +1,22 @@
 {
   "sections": {
-    "theme_verification": {
-      "type": "theme-verification",
-      "settings": {}
-    },
-    "hero_compact": {
-      "type": "hero-compact",
+    "simple_hero": {
+      "type": "simple-hero",
       "settings": {
         "headline": "Your Name in Japanese Style",
-        "japanese_subtitle": "あなたの名前を日本語で",
+        "japanese_text": "あなたの名前を日本語で",
         "description": "Custom t-shirts, mugs & more with authentic Japanese text. From $19.99",
         "cta_text": "Shop Now",
-        "cta_url": "/collections/all",
-        "gradient_start": "#667eea",
-        "gradient_end": "#764ba2",
-        "hero_height": 60,
-        "hero_height_mobile": 50,
-        "enable_animations": true,
-        "enable_floating_dots": true
+        "cta_url": "/collections/all"
       }
     },
-    "product_categories": {
-      "type": "product-categories",
-      "blocks": {
-        "block_1": {
-          "type": "category",
-          "settings": {
-            "title": "Fully Customizable",
-            "description": "Your text + your style. Choose fonts, colors, and orientation.",
-            "icon": "🎨",
-            "price": "From $24.99",
-            "cta_text": "Start Creating",
-            "url": "/collections/custom",
-            "coming_soon": false
-          }
-        },
-        "block_2": {
-          "type": "category",
-          "settings": {
-            "title": "Artistic Designs",
-            "description": "Beautiful pre-made art with your custom text added.",
-            "icon": "🌸",
-            "price": "From $27.99",
-            "cta_text": "Browse Art",
-            "url": "/collections/artistic",
-            "coming_soon": false
-          }
-        },
-        "block_3": {
-          "type": "category",
-          "settings": {
-            "title": "Quick & Simple",
-            "description": "Just add your name - we handle the rest. Perfect for beginners.",
-            "icon": "⚡",
-            "price": "From $19.99",
-            "cta_text": "Quick Order",
-            "url": "/collections/quick",
-            "coming_soon": false
-          }
-        },
-        "block_4": {
-          "type": "category",
-          "settings": {
-            "title": "Learning Materials",
-            "description": "Hiragana & Katakana chart mugs for studying Japanese.",
-            "icon": "☕",
-            "price": "From $16.99",
-            "cta_text": "Learn & Sip",
-            "url": "/collections/mugs",
-            "coming_soon": false
-          }
-        },
-        "block_5": {
-          "type": "category",
-          "settings": {
-            "title": "Design Only",
-            "description": "Pure Japanese art without text. Traditional and modern styles.",
-            "icon": "🏮",
-            "price": "From $22.99",
-            "cta_text": "Shop Designs",
-            "url": "/collections/designs",
-            "coming_soon": false
-          }
-        },
-        "block_6": {
-          "type": "category",
-          "settings": {
-            "title": "Kanji Names",
-            "description": "Professional Kanji name creation service. Premium quality.",
-            "icon": "🈴",
-            "price": "Coming Soon",
-            "cta_text": "Notify Me",
-            "url": "#",
-            "coming_soon": true
-          }
-        }
-      },
-      "block_order": [
-        "block_1",
-        "block_2",
-        "block_3",
-        "block_4",
-        "block_5",
-        "block_6"
-      ],
-      "settings": {
-        "title": "Choose Your Japanese Style",
-        "subtitle": "From quick customizations to professional designs, find the perfect way to showcase your name in Japanese.",
-        "columns_desktop": 3,
-        "enable_animations": true
-      }
+    "simple_categories": {
+      "type": "simple-categories",
+      "settings": {}
     }
   },
   "order": [
-    "theme_verification",
-    "hero_compact",
-    "product_categories"
+    "simple_hero",
+    "simple_categories"
   ]
 }
