@@ -1,5 +1,12 @@
 {
   "sections": {
+    "japanessie_test": {
+      "type": "japanessie-test",
+      "settings": {
+        "version": "1.0.0",
+        "show_details": true
+      }
+    },
     "hero_compact": {
       "type": "hero-compact",
       "settings": {
@@ -117,6 +124,7 @@
     }
   },
   "order": [
+    "japanessie_test",
     "hero_compact",
     "product_categories",
     "deployment_status"
