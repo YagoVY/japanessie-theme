@@ -1,0 +1,461 @@
+{% comment %}
+  Custom T-Shirt Product Template
+  File: templates/product.custom-tshirt.liquid
+{% endcomment %}
+
+{%- comment -%} tshirt-designer.js is loaded by the section {%- endcomment -%}
+
+<div class="custom-product-page">
+  
+  <!-- Professional T-Shirt Designer -->
+  {% section 'custom-tshirt-designer' %}
+  
+  <!-- Customer Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-container">
+      <h2 class="reviews-title">What Our Customers Say</h2>
+      
+      <div class="reviews-grid">
+        <div class="review-item">
+          <div class="review-rating">★★★★★</div>
+          <p class="review-text">"Perfect translation and amazing quality! Love my custom shirt."</p>
+          <div class="review-author">
+            <strong>Sarah M.</strong> - Verified Purchase
+          </div>
+        </div>
+        
+        <div class="review-item">
+          <div class="review-rating">★★★★★</div>
+          <p class="review-text">"Fast shipping and exactly what I ordered. Will buy again!"</p>
+          <div class="review-author">
+            <strong>Mike T.</strong> - Verified Purchase
+          </div>
+        </div>
+        
+        <div class="review-item">
+          <div class="review-rating">★★★★★</div>
+          <p class="review-text">"The live preview made it so easy to design. Highly recommend!"</p>
+          <div class="review-author">
+            <strong>Emma K.</strong> - Verified Purchase
+          </div>
+        </div>
+      </div>
+      
+      <div class="reviews-summary">
+        <div class="summary-item">
+          <span class="summary-number">4.8/5</span>
+          <span class="summary-label">Average Rating</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-number">247+</span>
+          <span class="summary-label">Happy Customers</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-number">99%</span>
+          <span class="summary-label">Satisfaction Rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="faq-container">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">How accurate is the Japanese translation?</summary>
+          <div class="faq-answer">
+            <p>Our AI translation system provides highly accurate Katakana conversions following standard Japanese transliteration practices. Each translation is optimized for authenticity and readability.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary class="faq-question">What's the production and shipping time?</summary>
+          <div class="faq-answer">
+            <p>Production takes 2-3 business days, and shipping takes 3-5 business days within the US. International orders take 7-14 business days. You'll receive tracking information once your order ships.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary class="faq-question">What's the material and care instructions?</summary>
+          <div class="faq-answer">
+            <p>Our t-shirts are made from premium 100% cotton blend, pre-shrunk and machine washable. Wash in cold water, tumble dry low, and avoid ironing directly on the design.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary class="faq-question">Can I return or exchange my custom t-shirt?</summary>
+          <div class="faq-answer">
+            <p>Yes! We offer a 30-day satisfaction guarantee. If you're not happy with your custom t-shirt, contact us for a full refund or exchange.</p>
+          </div>
+        </details>
+        
+        <details class="faq-item">
+          <summary class="faq-question">How do I choose the right size?</summary>
+          <div class="faq-answer">
+            <p>Our shirts fit true to size. Check our size guide for detailed measurements. If you're between sizes, we recommend ordering the larger size for a more comfortable fit.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  
+</div>
+
+<style>
+/* Custom Product Page Styles */
+.custom-product-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background: #f8fafc;
+  padding: 60px 0;
+  margin: 40px 0;
+}
+
+.reviews-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.reviews-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 40px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.review-item {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease;
+}
+
+.review-item:hover {
+  transform: translateY(-2px);
+}
+
+.review-rating {
+  color: #fbbf24;
+  font-size: 18px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.review-author {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.review-author strong {
+  color: #374151;
+}
+
+.reviews-summary {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #059669;
+  margin-bottom: 4px;
+}
+
+.summary-label {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: 60px 0;
+  background: white;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.faq-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-item {
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 20px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s ease;
+}
+
+.faq-question:hover {
+  background: #f3f4f6;
+}
+
+.faq-question::after {
+  content: '+';
+  font-size: 20px;
+  color: #059669;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+
+.faq-item[open] .faq-question::after {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  padding: 0 24px 24px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.faq-answer p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .reviews-section,
+  .faq-section {
+    padding: 40px 0;
+  }
+  
+  .reviews-container,
+  .faq-container {
+    padding: 0 16px;
+  }
+  
+  .reviews-title,
+  .faq-title {
+    font-size: 1.5rem;
+  }
+  
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .review-item {
+    padding: 20px;
+  }
+  
+  .reviews-summary {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .summary-number {
+    font-size: 1.5rem;
+  }
+  
+  .faq-question {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+  
+  .faq-answer {
+    padding: 0 20px 20px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviews-summary {
+    gap: 16px;
+  }
+  
+  .summary-item {
+    padding: 0 12px;
+  }
+  
+  .faq-question {
+    padding: 14px 16px;
+  }
+  
+  .faq-answer {
+    padding: 0 16px 16px 16px;
+  }
+}
+
+/* Animation for FAQ */
+.faq-item[open] .faq-answer {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+/* Accessibility improvements */
+.faq-question:focus {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-item:hover {
+    transform: none;
+  }
+  
+  .faq-item[open] .faq-answer {
+    animation: none;
+  }
+  
+  .faq-question::after {
+    transition: none;
+  }
+}
+</style>
+
+<script>
+// Enhanced FAQ functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // FAQ interaction tracking
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const summary = item.querySelector('.faq-question');
+    
+    if (summary) {
+      summary.addEventListener('click', function() {
+        // Close other open FAQ items for better UX
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item && otherItem.hasAttribute('open')) {
+            otherItem.removeAttribute('open');
+          }
+        });
+        
+        // Track FAQ interactions for analytics
+        const question = this.textContent.trim();
+        console.log('FAQ clicked:', question);
+        
+        // You can add analytics tracking here
+        if (window.gtag) {
+          window.gtag('event', 'faq_interaction', {
+            event_category: 'engagement',
+            event_label: question
+          });
+        }
+      });
+    }
+  });
+  
+  // Smooth scroll for any anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Add loading states for better perceived performance
+  const images = document.querySelectorAll('img');
+  images.forEach(img => {
+    if (!img.complete) {
+      img.style.opacity = '0';
+      img.addEventListener('load', function() {
+        this.style.transition = 'opacity 0.3s ease';
+        this.style.opacity = '1';
+      });
+    }
+  });
+});
+
+// Performance optimization - lazy load non-critical content
+if ('IntersectionObserver' in window) {
+  const lazyElements = document.querySelectorAll('.reviews-section, .faq-section');
+  
+  const elementObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('loaded');
+        elementObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '50px 0px'
+  });
+  
+  lazyElements.forEach(el => {
+    elementObserver.observe(el);
+  });
+}
+</script>

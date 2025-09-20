@@ -1,0 +1,1123 @@
+{% comment %}
+  Minimalist Custom T-Shirt Designer Section - WITH ORIENTATION CONTROLS
+  File: sections/custom-tshirt-designer.liquid
+  CORRECTED: Fixed schema tag and added missing JavaScript reference
+{% endcomment %}
+
+
+<style>
+/* Import Japanese Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Antique&family=Huninn&family=Rampart+One&family=Cherry+Bomb+One&display=swap');
+
+.minimalist-tshirt-designer {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 16px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.product-container {
+  display: flex !important;
+  gap: 32px !important;
+  align-items: flex-start !important;
+}
+
+.product-gallery {
+  position: sticky !important;
+  top: 20px !important;
+  flex: 0 0 40% !important;
+  max-height: calc(100vh - 40px) !important;
+  background: #fafafa !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.main-image-container {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 1 !important;
+  background: transparent !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+.main-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  transition: filter 0.3s ease !important;
+}
+
+.preview-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  border-radius: 6px !important;
+}
+
+.product-details {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.product-header {
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  padding-bottom: 16px !important;
+}
+
+.product-title {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin: 0 0 8px 0 !important;
+  color: #1a1a1a !important;
+  line-height: 1.3 !important;
+}
+
+.product-rating {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-bottom: 8px !important;
+}
+
+.stars {
+  color: #fbbf24 !important;
+  font-size: 14px !important;
+}
+
+.rating-count {
+  color: #666 !important;
+  font-size: 13px !important;
+}
+
+.product-price {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.current-price {
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  color: #059669 !important;
+}
+
+.original-price {
+  font-size: 1rem !important;
+  color: #999 !important;
+  text-decoration: line-through !important;
+}
+
+.variant-section {
+  margin-bottom: 20px !important;
+}
+
+.variant-group {
+  margin-bottom: 16px !important;
+}
+
+.variant-label {
+  display: block !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+}
+
+.size-grid {
+  display: flex !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.size-input {
+  display: none !important;
+}
+
+.size-label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 40px !important;
+  height: 36px !important;
+  padding: 0 8px !important;
+  border: 1.5px solid #e5e5e5 !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: white !important;
+}
+
+.size-input:checked + .size-label {
+  border-color: #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: white !important;
+}
+
+.color-grid {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.color-input {
+  display: none !important;
+}
+
+.color-label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px !important;
+  border: 1.5px solid transparent !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: white !important;
+}
+
+.color-input:checked + .color-label {
+  border-color: #1a1a1a !important;
+  background: #f8f8f8 !important;
+}
+
+.color-swatch {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  border: 1px solid #ddd !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+.custom-text-section {
+  margin-bottom: 20px !important;
+  padding: 16px !important;
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  border: 1px solid #e9ecef !important;
+}
+
+.section-label {
+  display: block !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+}
+
+.text-input-row {
+  display: flex !important;
+  gap: 8px !important;
+  margin-bottom: 6px !important;
+}
+
+.text-input {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  background: white !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.text-input:focus {
+  outline: none !important;
+  border-color: #1a1a1a !important;
+}
+
+.translate-btn {
+  padding: 8px 16px !important;
+  background: #1a1a1a !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.translate-btn:hover:not(:disabled) {
+  background: #333 !important;
+}
+
+.translate-btn:disabled {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+}
+
+.char-counter {
+  font-size: 11px !important;
+  color: #666 !important;
+  text-align: right !important;
+}
+
+.translation-display {
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: #e8f5e8 !important;
+  border-radius: 6px !important;
+  border-left: 3px solid #059669 !important;
+}
+
+.translation-content {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.translation-label {
+  font-weight: 500 !important;
+  color: #047857 !important;
+  font-size: 13px !important;
+}
+
+.japanese-text {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #047857 !important;
+}
+
+.error-display {
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: #fee !important;
+  border-radius: 6px !important;
+  border-left: 3px solid #dc2626 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.retry-btn {
+  background: #dc2626 !important;
+  color: white !important;
+  border: none !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+}
+
+/* NEW: Text Orientation Section */
+.orientation-section {
+  margin-bottom: 20px !important;
+  padding: 16px !important;
+  background: white !important;
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+}
+
+.orientation-label {
+  display: block !important;
+  font-weight: 500 !important;
+  margin-bottom: 12px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+}
+
+.orientation-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+.orientation-input {
+  display: none !important;
+}
+
+.orientation-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 16px 12px !important;
+  border: 2px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: white !important;
+  text-align: center !important;
+}
+
+.orientation-input:checked + .orientation-card {
+  border-color: #1a1a1a !important;
+  background: #f8f9fa !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.orientation-preview {
+  width: 60px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 8px !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.preview-horizontal {
+  display: flex !important;
+}
+
+.preview-vertical {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1 !important;
+}
+
+.orientation-name {
+  font-size: 11px !important;
+  color: #666 !important;
+  font-weight: 500 !important;
+}
+
+.font-section {
+  margin-bottom: 20px !important;
+  padding: 16px !important;
+  background: white !important;
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+}
+
+.font-section-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 16px !important;
+}
+
+.font-section-title {
+  font-weight: 600 !important;
+  color: #333 !important;
+  font-size: 15px !important;
+}
+
+.font-controls-row {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+
+.font-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.font-label {
+  font-weight: 500 !important;
+  color: #333 !important;
+  font-size: 13px !important;
+  min-width: 60px !important;
+}
+
+.font-size-options,
+.font-color-options {
+  display: flex !important;
+  gap: 4px !important;
+}
+
+.font-size-input,
+.font-color-input {
+  display: none !important;
+}
+
+.font-size-label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: white !important;
+}
+
+.font-size-input:checked + .font-size-label {
+  border-color: #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: white !important;
+}
+
+.font-color-label {
+  display: block !important;
+  cursor: pointer !important;
+  padding: 2px !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.font-color-input:checked + .font-color-label {
+  border-color: #1a1a1a !important;
+}
+
+.color-dot {
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  border: 1px solid #ddd !important;
+}
+
+.color-dot.black { background: #000000 !important; }
+.color-dot.white { background: #ffffff !important; }
+.color-dot.red { background: #dc2626 !important; }
+.color-dot.blue { background: #2563eb !important; }
+
+.font-style-section {
+  margin-top: 16px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid #f0f0f0 !important;
+}
+
+.font-style-label {
+  display: block !important;
+  font-weight: 500 !important;
+  margin-bottom: 12px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+}
+
+.font-style-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.font-style-input {
+  display: none !important;
+}
+
+.font-style-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 12px 8px !important;
+  border: 2px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: white !important;
+  text-align: center !important;
+}
+
+.font-style-input:checked + .font-style-card {
+  border-color: #1a1a1a !important;
+  background: #f8f9fa !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.font-preview-text {
+  font-size: 28px !important;
+  margin-bottom: 4px !important;
+  color: #333 !important;
+  min-height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.font-preview-text.yuji-syuku {
+  font-family: 'Yuji Syuku', serif !important;
+}
+
+.font-preview-text.shippori-antique {
+  font-family: 'Shippori Antique', serif !important;
+}
+
+.font-preview-text.huninn {
+  font-family: 'Huninn', sans-serif !important;
+}
+
+.font-preview-text.rampart-one {
+  font-family: 'Rampart One', cursive !important;
+}
+
+.font-preview-text.cherry-bomb-one {
+  font-family: 'Cherry Bomb One', cursive !important;
+}
+
+.font-style-name {
+  font-size: 11px !important;
+  color: #666 !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.cart-section {
+  padding: 16px !important;
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  border: 1px solid #e9ecef !important;
+}
+
+.quantity-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 12px !important;
+}
+
+.quantity-label {
+  font-weight: 500 !important;
+  color: #333 !important;
+  font-size: 14px !important;
+}
+
+.quantity-controls {
+  display: flex !important;
+  align-items: center !important;
+  border: 1px solid #ddd !important;
+  border-radius: 6px !important;
+  background: white !important;
+}
+
+.qty-btn {
+  background: none !important;
+  border: none !important;
+  padding: 6px 10px !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  color: #1a1a1a !important;
+  transition: background 0.2s ease !important;
+}
+
+.qty-btn:hover {
+  background: #f5f5f5 !important;
+}
+
+.qty-input {
+  border: none !important;
+  padding: 6px 8px !important;
+  width: 50px !important;
+  text-align: center !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+.add-to-cart-btn {
+  width: 100% !important;
+  padding: 12px 20px !important;
+  background: #1a1a1a !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #333 !important;
+}
+
+.add-to-cart-btn:disabled {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+}
+
+.cart-price {
+  margin-left: auto !important;
+  font-weight: 700 !important;
+}
+
+.trust-indicators {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 11px !important;
+  color: #666 !important;
+}
+
+.trust-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .minimalist-tshirt-designer {
+    padding: 12px !important;
+  }
+  
+  .font-preview-text {
+    font-size: 27px !important;
+  }
+  
+  .product-container {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  
+  .product-gallery {
+    position: sticky !important;
+    top: 10px !important;
+    flex: none !important;
+    width: 100% !important;
+    max-height: 45vh !important;
+    padding: 12px !important;
+    border-radius: 6px !important;
+    z-index: 100 !important;
+    transition: top 0.3s ease !important;
+  }
+  
+  .product-gallery.scrolled {
+    top: 0px !important;
+  }
+  
+  .main-image-container {
+    aspect-ratio: 1 !important;
+  }
+  
+  .product-details {
+    flex: none !important;
+    width: 100% !important;
+  }
+  
+  .product-title {
+    font-size: 1.3rem !important;
+  }
+  
+  .current-price {
+    font-size: 1.2rem !important;
+  }
+  
+  .size-grid {
+    gap: 4px !important;
+  }
+  
+  .size-label {
+    min-width: 36px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+  
+  .color-grid {
+    gap: 6px !important;
+  }
+  
+  .color-swatch {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  .text-input-row {
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+  
+  .font-controls-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  
+  .font-group {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+  
+  .font-style-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  
+  .font-style-card {
+    padding: 8px 6px !important;
+  }
+  
+  .font-style-name {
+    font-size: 10px !important;
+  }
+  
+  .orientation-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  
+  .orientation-card {
+    padding: 12px 8px !important;
+  }
+  
+  .trust-indicators {
+    flex-direction: column !important;
+    gap: 6px !important;
+    text-align: center !important;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.main-image,
+.preview-canvas,
+.product-gallery {
+  transition: all 0.3s ease !important;
+}
+
+.text-input:focus,
+.size-label:focus,
+.color-label:focus,
+.font-size-label:focus,
+.font-color-label:focus {
+  box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.2) !important;
+}
+</style>
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="minimalist-tshirt-designer">
+  <div class="product-container">
+    
+    <div class="product-gallery" id="product-gallery">
+      <div class="main-image-container">
+        <img 
+          id="main-product-image" 
+          src="{{ current_variant.featured_image | default: product.featured_image | image_url: width: 600, height: 600 }}" 
+          alt="{{ product.title }}"
+          width="600"
+          height="600"
+          class="main-image"
+        >
+        <canvas 
+          id="preview-canvas" 
+          width="600" 
+          height="600"
+          class="preview-canvas"
+        ></canvas>
+      </div>
+    </div>
+    
+    <div class="product-details">
+      
+      <div class="product-header">
+        <h1 class="product-title">{{ product.title }}</h1>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(247 reviews)</span>
+        </div>
+        <div class="product-price">
+          <span class="current-price">{{ current_variant.price | money }}</span>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="original-price">{{ current_variant.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+      </div>
+      
+      {% unless product.has_only_default_variant %}
+      <div class="variant-section">
+        {% for option in product.options_with_values %}
+          <div class="variant-group">
+            <label class="variant-label">
+              {% if option.name contains 'Size' %}
+                T-shirt {{ option.name }}
+              {% elsif option.name contains 'Color' or option.name contains 'Colour' %}
+                T-shirt {{ option.name }}
+              {% else %}
+                {{ option.name }}
+              {% endif %}
+            </label>
+            
+            {% if option.name contains 'Size' %}
+              <div class="size-grid">
+                {% for value in option.values %}
+                  <input 
+                    type="radio" 
+                    id="{{ option.name | handle }}-{{ value | handle }}" 
+                    name="options[{{ option.name }}]" 
+                    value="{{ value | escape }}"
+                    {% if forloop.first %}checked{% endif %}
+                    class="variant-input size-input"
+                    data-option-index="{{ option.position }}"
+                    data-option-value="{{ value | escape }}"
+                  >
+                  <label for="{{ option.name | handle }}-{{ value | handle }}" class="size-label">{{ value }}</label>
+                {% endfor %}
+              </div>
+              
+            {% elsif option.name contains 'Color' or option.name contains 'Colour' %}
+              <div class="color-grid">
+                {% for value in option.values %}
+                  {% assign color_hex = '#000000' %}
+                  {% assign value_lower = value | downcase %}
+                  {% case value_lower %}
+                    {% when 'black' %}{% assign color_hex = '#1a1a1a' %}
+                    {% when 'navy' %}{% assign color_hex = '#1e3a8a' %}
+                    {% when 'military green' %}{% assign color_hex = '#4a5d23' %}
+                    {% when 'sand' %}{% assign color_hex = '#d2b48c' %}
+                    {% when 'white' %}{% assign color_hex = '#f8f8f8' %}
+                    {% else %}{% assign color_hex = '#6B7280' %}
+                  {% endcase %}
+                  
+                  <input 
+                    type="radio" 
+                    id="{{ option.name | handle }}-{{ value | handle }}" 
+                    name="options[{{ option.name }}]" 
+                    value="{{ value | escape }}"
+                    {% if value_lower == 'black' or forloop.first %}checked{% endif %}
+                    class="variant-input color-input"
+                    data-option-index="{{ option.position }}"
+                    data-option-value="{{ value | escape }}"
+                    data-color="{{ color_hex }}"
+                  >
+                  <label for="{{ option.name | handle }}-{{ value | handle }}" class="color-label">
+                    <span class="color-swatch" style="background-color: {{ color_hex }};"></span>
+                  </label>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% endunless %}
+      
+      <div class="custom-text-section">
+        <label class="section-label">Custom Japanese Text</label>
+        
+        <div class="text-input-row">
+          <input 
+            type="text" 
+            id="custom-text" 
+            placeholder="Enter your text (max 16 chars)"
+            maxlength="16"
+            class="text-input"
+          >
+          <button type="button" id="translate-btn" class="translate-btn" disabled>
+            <span class="translate-text">Translate</span>
+            <span class="translate-loading hidden">...</span>
+          </button>
+        </div>
+        
+        <div class="char-counter">
+          <span id="char-count">0</span>/16 characters
+        </div>
+        
+        <div id="translation-display" class="translation-display hidden">
+          <div class="translation-content">
+            <span class="translation-label">Japanese:</span>
+            <span id="japanese-result" class="japanese-text"></span>
+          </div>
+        </div>
+        
+        <div id="error-display" class="error-display hidden">
+          <span id="error-text"></span>
+          <button type="button" id="retry-btn" class="retry-btn">Retry</button>
+        </div>
+      </div>
+      
+      <!-- NEW: Text Orientation Section -->
+      <div class="orientation-section">
+        <label class="orientation-label">Text Direction</label>
+        <div class="orientation-grid">
+          
+          <input type="radio" id="orientation-horizontal" name="text-orientation" value="horizontal" class="orientation-input" checked>
+          <label for="orientation-horizontal" class="orientation-card">
+            <div class="orientation-preview">
+              <div class="preview-horizontal">テスト</div>
+            </div>
+            <div class="orientation-name">Horizontal</div>
+          </label>
+
+          <input type="radio" id="orientation-vertical" name="text-orientation" value="vertical" class="orientation-input">
+          <label for="orientation-vertical" class="orientation-card">
+            <div class="orientation-preview">
+              <div class="preview-vertical">
+                <span>テ</span>
+                <span>ス</span>
+                <span>ト</span>
+              </div>
+            </div>
+            <div class="orientation-name">Vertical</div>
+          </label>
+          
+        </div>
+      </div>
+      
+      <div class="font-section">
+        <div class="font-section-header">
+          <span class="font-section-title">Text Styling</span>
+          <div class="font-controls-row">
+            <div class="font-group">
+              <span class="font-label">Size:</span>
+              <div class="font-size-options">
+                <input type="radio" id="size-small" name="font-size" value="small" class="font-size-input">
+                <label for="size-small" class="font-size-label">S</label>
+
+                <input type="radio" id="size-medium" name="font-size" value="medium" checked class="font-size-input">
+                <label for="size-medium" class="font-size-label">M</label>
+
+              </div>
+            </div>
+            
+            <div class="font-group">
+              <span class="font-label">Color:</span>
+              <div class="font-color-options">
+                <input type="radio" id="font-black" name="font-color" value="#000000" class="font-color-input">
+                <label for="font-black" class="font-color-label">
+                  <span class="color-dot black"></span>
+                </label>
+                
+                <input type="radio" id="font-white" name="font-color" value="#FFFFFF" checked class="font-color-input">
+                <label for="font-white" class="font-color-label">
+                  <span class="color-dot white"></span>
+                </label>
+                
+                <input type="radio" id="font-red" name="font-color" value="#DC2626" class="font-color-input">
+                <label for="font-red" class="font-color-label">
+                  <span class="color-dot red"></span>
+                </label>
+                
+                <input type="radio" id="font-blue" name="font-color" value="#2563EB" class="font-color-input">
+                <label for="font-blue" class="font-color-label">
+                  <span class="color-dot blue"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="font-style-section">
+          <label class="font-style-label">Japanese Font Style</label>
+          <div class="font-style-grid">
+            
+           <input type="radio" id="font-yuji-syuku" name="font-style" value="Yuji Syuku" class="font-style-input" checked>
+<label for="font-yuji-syuku" class="font-style-card">
+  <div class="font-preview-text yuji-syuku">カタカナ</div>
+  <div class="font-style-name">Yuji Syuku</div>
+</label>
+
+<input type="radio" id="font-shippori-antique" name="font-style" value="Shippori Antique" class="font-style-input">
+<label for="font-shippori-antique" class="font-style-card">
+  <div class="font-preview-text shippori-antique">カタカナ</div>
+  <div class="font-style-name">Shippori Antique</div>
+</label>
+
+<input type="radio" id="font-huninn" name="font-style" value="Huninn" class="font-style-input">
+<label for="font-huninn" class="font-style-card">
+  <div class="font-preview-text huninn">カタカナ</div>
+  <div class="font-style-name">Huninn</div>
+</label>
+
+<input type="radio" id="font-rampart-one" name="font-style" value="Rampart One" class="font-style-input">
+<label for="font-rampart-one" class="font-style-card">
+  <div class="font-preview-text rampart-one">カタカナ</div>
+  <div class="font-style-name">Rampart One</div>
+</label>
+
+<input type="radio" id="font-cherry-bomb-one" name="font-style" value="Cherry Bomb One" class="font-style-input">
+<label for="font-cherry-bomb-one" class="font-style-card">
+  <div class="font-preview-text cherry-bomb-one">カタカナ</div>
+  <div class="font-style-name">Cherry Bomb One</div>
+</label>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="cart-section">
+        <div class="quantity-row">
+          <label for="quantity" class="quantity-label">Quantity:</label>
+          <div class="quantity-controls">
+            <button type="button" class="qty-btn minus" data-action="minus">−</button>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" readonly class="qty-input">
+            <button type="button" class="qty-btn plus" data-action="plus">+</button>
+          </div>
+        </div>
+        
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="add-to-cart-form">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="variant-id">
+          <input type="hidden" name="properties[Original Text]" id="original-text-prop">
+          <input type="hidden" name="properties[Japanese Text]" id="japanese-text-prop">
+          <input type="hidden" name="properties[Font Size]" id="font-size-prop" value="medium">
+          <input type="hidden" name="properties[Font Color]" id="font-color-prop" value="#FFFFFF">
+          <input type="hidden" name="properties[Font Style]" id="font-style-prop" value="Yuji Syuku">
+          <input type="hidden" name="properties[Text Orientation]" id="orientation-prop" value="horizontal">
+
+<input type="hidden" name="properties[_design_params]" id="design-params-prop">
+          
+          <button type="submit" class="add-to-cart-btn" disabled id="add-to-cart-btn">
+            <span class="cart-text">Add to Cart</span>
+            <span class="cart-price">{{ current_variant.price | money }}</span>
+          </button>
+        </form>
+        
+        <div class="trust-indicators">
+          <span class="trust-item">Secure Checkout</span>
+          <span class="trust-item">Free Shipping $50+</span>
+          <span class="trust-item">30-Day Returns</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// MINIMAL DATA EXPOSURE - No duplicate JavaScript
+window.productData = {{ product | json }};
+window.currentVariant = {{ current_variant | json }};
+
+// Define blank image URLs for JavaScript to use
+window.blankImageUrls = {
+  'black': '{{ "black-blank.jpg" | asset_url }}',
+  'navy': '{{ "navy-blank.jpg" | asset_url }}',
+  'military green': '{{ "military-green-blank.jpg" | asset_url }}',
+  'sand': '{{ "sand-blank.jpg" | asset_url }}',
+  'white': '{{ "white-blank.jpg" | asset_url }}'
+};
+
+// ALL FUNCTIONALITY HANDLED BY EXTERNAL tshirt-designer.js
+</script>
+
+<script id="tle-script" src="{{ 'text-layout-engine.js' | asset_url | append: '?v=fix2' }}" defer></script>
+<script id="tsd-script" src="{{ 'tshirt-designer.js'  | asset_url | append: '?v=fix2' }}" defer></script>
+
+
+
+{% schema %}
+{
+ "name": "T-Shirt Designer",
+ "class": "tshirt-designer-section",
+ "settings": [
+   {
+     "type": "text",
+     "id": "section_title",
+     "label": "Section Title",
+     "default": "Minimalist T-Shirt Designer"
+   }
+ ],
+ "presets": [
+   {
+     "name": "Minimalist T-Shirt Designer",
+     "category": "Product"
+   }
+ ]
+}
+
+
+{% endschema %}

@@ -1,0 +1,813 @@
+{% comment %}
+  Japanessie Product Categories Section
+  Conversion-optimized category cards with tracking and responsive design
+{% endcomment %}
+
+<style>
+  .product-categories {
+    padding: 3rem 1rem;
+    background: #f8fafc;
+    position: relative;
+  }
+
+  .categories-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .categories-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .categories-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .categories-subtitle {
+    font-size: 1.2rem;
+    color: #4a5568;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .category-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    will-change: transform, box-shadow;
+  }
+
+  .category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(197, 48, 48, 0.05), rgba(253, 126, 20, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: #c53030;
+  }
+
+  .category-card:hover::before {
+    opacity: 1;
+  }
+
+  .category-card:active {
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  .category-card.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .category-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #c53030, #fd7e14);
+    color: white;
+    box-shadow: 0 4px 15px rgba(197, 48, 48, 0.3);
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .category-description {
+    font-size: 1rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .category-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #c53030;
+    margin-bottom: 1.5rem;
+  }
+
+  .category-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: linear-gradient(135deg, #c53030, #fd7e14);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 48px;
+  }
+
+  .category-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .category-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(197, 48, 48, 0.4);
+    color: white;
+  }
+
+  .category-cta:hover::before {
+    left: 100%;
+  }
+
+  .category-cta:focus {
+    outline: 3px solid rgba(197, 48, 48, 0.3);
+    outline-offset: 2px;
+  }
+
+  .category-cta.disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .category-cta.disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .coming-soon-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #fbbf24;
+    color: #92400e;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Loading States */
+  .category-card.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .category-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #c53030;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .product-categories {
+      padding: 2rem 1rem;
+    }
+
+    .categories-title {
+      font-size: 2rem;
+    }
+
+    .categories-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .categories-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .category-card {
+      padding: 1.5rem;
+    }
+
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+    }
+
+    .category-description {
+      font-size: 0.95rem;
+    }
+
+    .category-price {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .product-categories {
+      padding: 1.5rem 0.75rem;
+    }
+
+    .categories-title {
+      font-size: 1.8rem;
+    }
+
+    .categories-subtitle {
+      font-size: 1rem;
+    }
+
+    .category-card {
+      padding: 1.25rem;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .category-card,
+    .category-cta {
+      transition: none;
+    }
+    
+    .category-card:hover {
+      transform: none;
+    }
+    
+    .category-cta::before {
+      display: none;
+    }
+  }
+
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .category-card {
+      border: 2px solid #000;
+    }
+    
+    .category-card:hover {
+      border-color: #c53030;
+    }
+  }
+</style>
+
+<section class="product-categories" id="product-categories">
+  <div class="categories-container">
+    <!-- Section Header -->
+    <div class="categories-header">
+      <h2 class="categories-title">
+        {{ section.settings.title | default: 'Choose Your Japanese Style' }}
+      </h2>
+      <p class="categories-subtitle">
+        {{ section.settings.subtitle | default: 'From quick customizations to professional designs, find the perfect way to showcase your name in Japanese.' }}
+      </p>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="categories-grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'category' %}
+            <div class="category-card {% if block.settings.coming_soon %}disabled{% endif %}" 
+                 data-category-id="{{ block.id }}"
+                 data-category-title="{{ block.settings.title | escape }}"
+                 onclick="trackCategoryClick('{{ block.id }}', '{{ block.settings.title | escape }}')"
+                 role="button"
+                 tabindex="0"
+                 aria-label="{{ block.settings.title }} - {{ block.settings.description }}">
+              
+              {% if block.settings.coming_soon %}
+                <div class="coming-soon-badge">Coming Soon</div>
+              {% endif %}
+
+              <div class="category-icon" aria-hidden="true">
+                {{ block.settings.icon | default: '🎨' }}
+              </div>
+
+              <h3 class="category-title">{{ block.settings.title }}</h3>
+              
+              <p class="category-description">{{ block.settings.description }}</p>
+              
+              <div class="category-price">
+                {% if block.settings.coming_soon %}
+                  Coming Soon
+                {% else %}
+                  {{ block.settings.price | default: 'From $19.99' }}
+                {% endif %}
+              </div>
+              
+              <a href="{% if block.settings.coming_soon %}#{% else %}{{ block.settings.url | default: '#' }}{% endif %}" 
+                 class="category-cta {% if block.settings.coming_soon %}disabled{% endif %}"
+                 onclick="trackCategoryCTA('{{ block.id }}', '{{ block.settings.title | escape }}', '{{ block.settings.cta_text | default: 'Shop Now' }}')"
+                 aria-label="{% if block.settings.coming_soon %}Coming Soon{% else %}{{ block.settings.cta_text | default: 'Shop Now' }} - {{ block.settings.title }}{% endif %}">
+                {{ block.settings.cta_text | default: 'Shop Now' }}
+              </a>
+            </div>
+
+          {% when 'featured_product' %}
+            <div class="category-card featured-product" 
+                 data-product-id="{{ block.settings.product.id }}"
+                 data-category-title="{{ block.settings.title | escape }}"
+                 onclick="trackProductClick('{{ block.settings.product.id }}', '{{ block.settings.title | escape }}')"
+                 role="button"
+                 tabindex="0">
+              
+              <div class="category-icon" aria-hidden="true">
+                {{ block.settings.icon | default: '⭐' }}
+              </div>
+
+              <h3 class="category-title">{{ block.settings.title }}</h3>
+              
+              <p class="category-description">{{ block.settings.description }}</p>
+              
+              <div class="category-price">
+                {% if block.settings.product.price %}
+                  From {{ block.settings.product.price | money }}
+                {% else %}
+                  {{ block.settings.price | default: 'From $19.99' }}
+                {% endif %}
+              </div>
+              
+              <a href="{{ block.settings.product.url | default: block.settings.url | default: '#' }}" 
+                 class="category-cta"
+                 onclick="trackProductCTA('{{ block.settings.product.id }}', '{{ block.settings.title | escape }}')">
+                {{ block.settings.cta_text | default: 'View Product' }}
+              </a>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Analytics Tracking Functions
+  function trackCategoryClick(categoryId, categoryTitle) {
+    // Google Analytics
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'category_card_click', {
+        event_category: 'engagement',
+        event_label: categoryTitle,
+        custom_parameter_1: categoryId
+      });
+    }
+
+    // Shopify Analytics
+    if (typeof ShopifyAnalytics !== 'undefined') {
+      ShopifyAnalytics.track('Category Card Click', {
+        category_id: categoryId,
+        category_title: categoryTitle,
+        section: 'product-categories'
+      });
+    }
+
+    // Custom tracking
+    if (typeof window.dataLayer !== 'undefined') {
+      window.dataLayer.push({
+        event: 'category_interaction',
+        category_id: categoryId,
+        category_title: categoryTitle,
+        interaction_type: 'card_click'
+      });
+    }
+  }
+
+  function trackCategoryCTA(categoryId, categoryTitle, ctaText) {
+    // Prevent default if coming soon
+    const card = document.querySelector(`[data-category-id="${categoryId}"]`);
+    if (card && card.classList.contains('disabled')) {
+      event.preventDefault();
+      return false;
+    }
+
+    // Google Analytics
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'category_cta_click', {
+        event_category: 'conversion',
+        event_label: `${categoryTitle} - ${ctaText}`,
+        value: 1,
+        custom_parameter_1: categoryId
+      });
+    }
+
+    // Shopify Analytics
+    if (typeof ShopifyAnalytics !== 'undefined') {
+      ShopifyAnalytics.track('Category CTA Click', {
+        category_id: categoryId,
+        category_title: categoryTitle,
+        cta_text: ctaText,
+        section: 'product-categories'
+      });
+    }
+
+    // Custom tracking
+    if (typeof window.dataLayer !== 'undefined') {
+      window.dataLayer.push({
+        event: 'category_cta_click',
+        category_id: categoryId,
+        category_title: categoryTitle,
+        cta_text: ctaText
+      });
+    }
+  }
+
+  function trackProductClick(productId, productTitle) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'product_click', {
+        event_category: 'engagement',
+        event_label: productTitle,
+        item_id: productId
+      });
+    }
+  }
+
+  function trackProductCTA(productId, productTitle) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'product_cta_click', {
+        event_category: 'conversion',
+        event_label: productTitle,
+        item_id: productId,
+        value: 1
+      });
+    }
+  }
+
+  // Keyboard Navigation Support
+  document.addEventListener('DOMContentLoaded', function() {
+    const categoryCards = document.querySelectorAll('.category-card[tabindex="0"]');
+    
+    categoryCards.forEach(card => {
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+
+    // Loading state management
+    const ctaButtons = document.querySelectorAll('.category-cta');
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        if (this.classList.contains('disabled')) {
+          e.preventDefault();
+          return false;
+        }
+
+        // Add loading state
+        const card = this.closest('.category-card');
+        if (card) {
+          card.classList.add('loading');
+          
+          // Remove loading state after navigation or timeout
+          setTimeout(() => {
+            card.classList.remove('loading');
+          }, 3000);
+        }
+      });
+    });
+
+    // Intersection Observer for performance tracking
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const categoryId = entry.target.dataset.categoryId;
+            const categoryTitle = entry.target.dataset.categoryTitle;
+            
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'category_view', {
+                event_category: 'engagement',
+                event_label: categoryTitle,
+                custom_parameter_1: categoryId
+              });
+            }
+            
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+      });
+
+      categoryCards.forEach(card => {
+        observer.observe(card);
+      });
+    }
+  });
+
+  // Coming Soon Notifications
+  function notifyComingSoon(categoryTitle) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'coming_soon_notification', {
+        event_category: 'engagement',
+        event_label: categoryTitle
+      });
+    }
+
+    // Show notification (you can customize this)
+    alert(`${categoryTitle} is coming soon! We'll notify you when it's available.`);
+  }
+
+  // Handle coming soon clicks
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('disabled') || e.target.closest('.disabled')) {
+      const card = e.target.closest('.category-card');
+      if (card && card.classList.contains('disabled')) {
+        const categoryTitle = card.dataset.categoryTitle;
+        notifyComingSoon(categoryTitle);
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Categories",
+  "tag": "section",
+  "class": "categories-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Choose Your Japanese Style",
+      "info": "Main heading for the categories section"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "From quick customizations to professional designs, find the perfect way to showcase your name in Japanese.",
+      "info": "Subtitle text below the main heading"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "info": "Number of columns on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable Animations",
+      "default": true,
+      "info": "Enable hover and click animations"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Product Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category Name",
+          "info": "Display name for the category"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Category Description",
+          "default": "Brief description of what this category offers.",
+          "info": "Description text for the category card"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Category Icon",
+          "default": "🎨",
+          "info": "Emoji or icon for the category (recommended: single emoji)"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": "From $19.99",
+          "info": "Price text to display (e.g., 'From $19.99', 'Starting at $24.99')"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Button Text",
+          "default": "Shop Now",
+          "info": "Text for the call-to-action button"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Category URL",
+          "info": "Link to collection or category page"
+        },
+        {
+          "type": "checkbox",
+          "id": "coming_soon",
+          "label": "Coming Soon",
+          "default": false,
+          "info": "Mark this category as coming soon (disables interactions)"
+        }
+      ]
+    },
+    {
+      "type": "featured_product",
+      "name": "Featured Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product Title",
+          "default": "Featured Product",
+          "info": "Display name for the featured product"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Product Description",
+          "default": "Special featured product with unique benefits.",
+          "info": "Description text for the product card"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Product Icon",
+          "default": "⭐",
+          "info": "Emoji or icon for the product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product",
+          "info": "Choose a product to feature in this card"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Custom Price Display",
+          "info": "Override price display (optional - uses product price if not set)"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Button Text",
+          "default": "View Product",
+          "info": "Text for the call-to-action button"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Custom URL",
+          "info": "Override product URL (optional - uses product URL if not set)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Categories",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Fully Customizable",
+            "description": "Your text + your style. Choose fonts, colors, and orientation.",
+            "icon": "🎨",
+            "price": "From $24.99",
+            "cta_text": "Start Creating",
+            "url": "/collections/custom"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Artistic Designs",
+            "description": "Beautiful pre-made art with your custom text added.",
+            "icon": "🌸",
+            "price": "From $27.99",
+            "cta_text": "Browse Art",
+            "url": "/collections/artistic"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Quick & Simple",
+            "description": "Just add your name - we handle the rest. Perfect for beginners.",
+            "icon": "⚡",
+            "price": "From $19.99",
+            "cta_text": "Quick Order",
+            "url": "/collections/quick"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Learning Materials",
+            "description": "Hiragana & Katakana chart mugs for studying Japanese.",
+            "icon": "☕",
+            "price": "From $16.99",
+            "cta_text": "Learn & Sip",
+            "url": "/collections/learning"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Design Only",
+            "description": "Pure Japanese art without text. Traditional and modern styles.",
+            "icon": "🏮",
+            "price": "From $22.99",
+            "cta_text": "Shop Designs",
+            "url": "/collections/designs"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Kanji Names",
+            "description": "Professional Kanji name creation service. Premium quality.",
+            "icon": "🈴",
+            "price": "Coming Soon",
+            "cta_text": "Notify Me",
+            "coming_soon": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
