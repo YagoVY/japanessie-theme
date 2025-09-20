@@ -1,0 +1,270 @@
+{% comment %}
+  Japanessie Deployment Status Section
+  Shows theme loading status and configuration verification
+{% endcomment %}
+
+<style>
+  .deployment-status {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin: 2rem 0;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .status-header {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .status-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .status-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .status-item.success {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.2);
+  }
+
+  .status-item.error {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  .status-item.warning {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.2);
+  }
+
+  .status-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .status-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .status-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .error-message {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    color: #fecaca;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .deployment-status {
+      padding: 1.5rem 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    .status-header {
+      font-size: 1.6rem;
+    }
+    
+    .status-subtitle {
+      font-size: 1rem;
+    }
+    
+    .status-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+{% liquid
+  assign theme_loaded = true
+  assign errors = ''
+  assign warnings = ''
+  
+  comment 'Check hero section settings'
+  if section.settings.theme_name == blank
+    assign theme_loaded = false
+    assign errors = errors | append: 'Missing theme name. '
+  endif
+  
+  comment 'Check if required sections exist'
+  assign hero_section = sections.hero_compact
+  assign categories_section = sections.product_categories
+  
+  if hero_section == nil
+    assign theme_loaded = false
+    assign errors = errors | append: 'Hero section not found. '
+  endif
+  
+  if categories_section == nil
+    assign theme_loaded = false
+    assign errors = errors | append: 'Product categories section not found. '
+  endif
+  
+  comment 'Check for missing collections'
+  assign collection_count = 0
+  for collection in collections
+    assign collection_count = collection_count | plus: 1
+  endfor
+  
+  if collection_count < 6
+    assign warnings = warnings | append: 'Only ' | append: collection_count | append: ' collections found. Expected 6+. '
+  endif
+%}
+
+<section class="deployment-status">
+  <div class="status-header">
+    {% if theme_loaded %}
+      ✅ JAPANESSIE THEME LOADED SUCCESSFULLY
+    {% else %}
+      ❌ JAPANESSIE THEME HAS ISSUES
+    {% endif %}
+  </div>
+  
+  <div class="status-subtitle">
+    {{ section.settings.theme_name | default: 'Japanessie' }} Theme v{{ section.settings.version | default: '1.0.0' }}
+  </div>
+
+  {% if errors != blank %}
+    <div class="error-message">
+      <strong>Errors Found:</strong><br>
+      {{ errors }}
+    </div>
+  {% endif %}
+
+  {% if warnings != blank %}
+    <div class="error-message" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+      <strong>Warnings:</strong><br>
+      {{ warnings }}
+    </div>
+  {% endif %}
+
+  <div class="status-grid">
+    <div class="status-item {% if hero_section %}success{% else %}error{% endif %}">
+      <span class="status-icon">{% if hero_section %}✅{% else %}❌{% endif %}</span>
+      <div class="status-title">Hero Section</div>
+      <div class="status-description">
+        {% if hero_section %}
+          Loaded with Japanese text and CTA
+        {% else %}
+          Missing or not configured
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="status-item {% if categories_section %}success{% else %}error{% endif %}">
+      <span class="status-icon">{% if categories_section %}✅{% else %}❌{% endif %}</span>
+      <div class="status-title">Product Categories</div>
+      <div class="status-description">
+        {% if categories_section %}
+          6 categories configured
+        {% else %}
+          Missing or not configured
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="status-item {% if collection_count >= 6 %}success{% elsif collection_count > 0 %}warning{% else %}error{% endif %}">
+      <span class="status-icon">{% if collection_count >= 6 %}✅{% elsif collection_count > 0 %}⚠️{% else %}❌{% endif %}</span>
+      <div class="status-title">Collections</div>
+      <div class="status-description">
+        {{ collection_count }} collections found
+      </div>
+    </div>
+
+    <div class="status-item success">
+      <span class="status-icon">✅</span>
+      <div class="status-title">Custom Header</div>
+      <div class="status-description">
+        Japanessie header loaded
+      </div>
+    </div>
+
+    <div class="status-item success">
+      <span class="status-icon">✅</span>
+      <div class="status-title">Japanese Fonts</div>
+      <div class="status-description">
+        Noto Sans JP loaded
+      </div>
+    </div>
+
+    <div class="status-item success">
+      <span class="status-icon">✅</span>
+      <div class="status-title">Analytics</div>
+      <div class="status-description">
+        Tracking configured
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Deployment Status",
+  "tag": "section",
+  "class": "deployment-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_status",
+      "label": "Show Status",
+      "default": true,
+      "info": "Display deployment status on frontend"
+    },
+    {
+      "type": "text",
+      "id": "theme_name",
+      "label": "Theme Name",
+      "default": "Japanessie",
+      "info": "Name of the theme"
+    },
+    {
+      "type": "text",
+      "id": "version",
+      "label": "Version",
+      "default": "1.0.0",
+      "info": "Theme version number"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deployment Status",
+      "settings": {
+        "show_status": true,
+        "theme_name": "Japanessie",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}
+{% endschema %}

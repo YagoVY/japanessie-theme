@@ -7,7 +7,7 @@
         "japanese_subtitle": "あなたの名前を日本語で",
         "description": "Custom t-shirts, mugs & more with authentic Japanese text. From $19.99",
         "cta_text": "Shop Now",
-        "cta_url": "#product-categories",
+        "cta_url": "/collections/all",
         "gradient_start": "#667eea",
         "gradient_end": "#764ba2",
         "hero_height": 60,
@@ -106,10 +106,19 @@
         "columns_desktop": 3,
         "enable_animations": true
       }
+    },
+    "deployment_status": {
+      "type": "deployment-status",
+      "settings": {
+        "show_status": true,
+        "theme_name": "Japanessie",
+        "version": "1.0.0"
+      }
     }
   },
   "order": [
     "hero_compact",
-    "product_categories"
+    "product_categories",
+    "deployment_status"
   ]
 }

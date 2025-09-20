@@ -3,6 +3,51 @@
   Conversion-optimized category cards with tracking and responsive design
 {% endcomment %}
 
+{% liquid
+  assign has_errors = false
+  assign error_message = ''
+  assign block_count = 0
+  
+  for block in section.blocks
+    assign block_count = block_count | plus: 1
+    
+    if block.settings.title == blank
+      assign has_errors = true
+      assign error_message = error_message | append: 'Block ' | append: block_count | append: ' missing title. '
+    endif
+    
+    if block.settings.description == blank
+      assign has_errors = true
+      assign error_message = error_message | append: 'Block ' | append: block_count | append: ' missing description. '
+    endif
+    
+    if block.settings.url == blank and block.settings.coming_soon == false
+      assign has_errors = true
+      assign error_message = error_message | append: 'Block ' | append: block_count | append: ' missing URL. '
+    endif
+  endfor
+  
+  if block_count < 6
+    assign has_errors = true
+    assign error_message = error_message | append: 'Only ' | append: block_count | append: ' blocks found. Expected 6. '
+  endif
+%}
+
+{% if has_errors %}
+  <div style="background: #fee2e2; border: 2px solid #ef4444; padding: 1rem; margin: 1rem; border-radius: 8px; color: #991b1b;">
+    <strong>🚨 Product Categories Error:</strong><br>
+    {{ error_message }}
+    <br><br>
+    <strong>Required for each block:</strong>
+    <ul>
+      <li>Category Title</li>
+      <li>Category Description</li>
+      <li>Category URL (or mark as Coming Soon)</li>
+    </ul>
+    <strong>Expected: 6 category blocks</strong>
+  </div>
+{% endif %}
+
 <style>
   .product-categories {
     padding: 3rem 1rem;

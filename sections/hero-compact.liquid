@@ -3,6 +3,40 @@
   Conversion-optimized hero with Japanese text and single CTA
 {% endcomment %}
 
+{% liquid
+  assign has_errors = false
+  assign error_message = ''
+  
+  if section.settings.headline == blank
+    assign has_errors = true
+    assign error_message = error_message | append: 'Missing headline. '
+  endif
+  
+  if section.settings.japanese_subtitle == blank
+    assign has_errors = true
+    assign error_message = error_message | append: 'Missing Japanese subtitle. '
+  endif
+  
+  if section.settings.cta_url == blank
+    assign has_errors = true
+    assign error_message = error_message | append: 'Missing CTA URL. '
+  endif
+%}
+
+{% if has_errors %}
+  <div style="background: #fee2e2; border: 2px solid #ef4444; padding: 1rem; margin: 1rem; border-radius: 8px; color: #991b1b;">
+    <strong>🚨 Hero Section Error:</strong><br>
+    {{ error_message }}
+    <br><br>
+    <strong>Required Settings:</strong>
+    <ul>
+      <li>Main Headline</li>
+      <li>Japanese Subtitle</li>
+      <li>CTA Button URL</li>
+    </ul>
+  </div>
+{% endif %}
+
 <style>
   .hero-compact {
     position: relative;

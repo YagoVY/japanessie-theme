@@ -434,5 +434,53 @@
 
     <!-- Japanessie Custom JavaScript -->
     <script src="{{ 'japanessie-custom.js' | asset_url }}" defer="defer"></script>
+    
+    <!-- Japanessie Theme Verification -->
+    <script>
+      // Theme loading verification
+      document.addEventListener('DOMContentLoaded', function() {
+        const themeStatus = {
+          header: document.querySelector('.japanessie-header') ? true : false,
+          hero: document.querySelector('.hero-compact') ? true : false,
+          categories: document.querySelector('.product-categories') ? true : false,
+          deploymentStatus: document.querySelector('.deployment-status') ? true : false,
+          fonts: document.fonts ? document.fonts.check('1em "Noto Sans JP"') : false,
+          analytics: typeof gtag !== 'undefined' ? true : false
+        };
+        
+        // Log status to console
+        console.log('🎌 Japanessie Theme Status:', themeStatus);
+        
+        // Track theme load
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'theme_loaded', {
+            event_category: 'theme',
+            event_label: 'japanessie',
+            theme_status: JSON.stringify(themeStatus)
+          });
+        }
+        
+        // Show error if critical components missing
+        const criticalComponents = ['header', 'hero', 'categories'];
+        const missingComponents = criticalComponents.filter(comp => !themeStatus[comp]);
+        
+        if (missingComponents.length > 0) {
+          console.error('🚨 Missing critical components:', missingComponents);
+          
+          // Create error notification
+          const errorDiv = document.createElement('div');
+          errorDiv.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            background: #ef4444; color: white; padding: 1rem;
+            text-align: center; font-weight: bold;
+          `;
+          errorDiv.innerHTML = `🚨 Japanessie Theme Error: Missing ${missingComponents.join(', ')}`;
+          document.body.appendChild(errorDiv);
+          
+          // Auto-remove after 5 seconds
+          setTimeout(() => errorDiv.remove(), 5000);
+        }
+      });
+    </script>
   </body>
 </html>
